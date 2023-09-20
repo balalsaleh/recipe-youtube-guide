@@ -1,1 +1,8 @@
 /* this is an example */
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #6cf;
+ }
