@@ -1,1 +1,33 @@
-/* this is an example */
+.img-smaller {
+    max-width: 280px;
+    height: auto;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white; 
+    padding: 10px; 
+}
+
+/* Add this to your style.css file */
+.recipe-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.recipe {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.video {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
