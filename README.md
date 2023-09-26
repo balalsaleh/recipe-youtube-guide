@@ -26,6 +26,8 @@ A group project where we will be creating a website which allows us to search fo
 - a favourites section for recipes
 - suggestions for searching for recipes based on what is typed... like "chi" ... "chicken pasta, chicken pie etc"
 
+## Website Draft
 
+![Google Slides Website Draft](./assets/img/recipe-website-draft.png)
 
 

@@ -1,8 +1,40 @@
 /* this is an example */
 
-#footer {
-    position: fixed;
-    bottom: 0;
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+#footer{
+    margin-top: auto;
+}
+
+
+ .main {
+    margin: 15px;
+  }
+  
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
-    background: #6cf;
- }
+}
+  
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+  
+#recipe-display {
+    background-color: rgb(229, 250, 245);
+    min-height: 20px;
+}
+  
+#youtube-display {
+    background-color: rgb(230, 255, 230);
+    min-height: 24px;
+    
+}
