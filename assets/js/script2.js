@@ -1,17 +1,20 @@
 // YouTube API key
 const youtubeApiKey = "AIzaSyB5dX3pFkRAZUPgX1JfHuPeSJdUvmd7KhU";
 // here i have set up variables for api's
-const apiKey = '1'; 
-const baseUrl = 'https://www.themealdb.com/api/json/v1/1/search.php'; 
+const apiKey = '1';
+const baseUrl = 'https://www.themealdb.com/api/json/v1/1/search.php';
 
-const searchInput = document.getElementById('searchInput'); 
-const suggestionsContainer = document.getElementById('suggestions'); 
+const searchInput = document.getElementById('searchInput');
+const suggestionsContainer = document.getElementById('suggestions');
 const searchButton = document.getElementById('searchButton');
-const resultsContainer = document.getElementById('results'); 
-const categoryContainer = document.getElementById('categoryContainer'); 
-const recipeDetailsContainer = document.getElementById('recipeDetails'); 
+const resultsContainer = document.getElementById('results');
+const categoryContainer = document.getElementById('categoryContainer');
+const recipeDetailsContainer = document.getElementById('recipeDetails');
+const recentlySearchedContainer = document.getElementById('recentlySearchedContainer');
 
-// added an event listener to the search input to provide search suggestions as the user types the 3 chracters
+const maxRecentlySearchedRecipes = 3;
+
+// added an event listener to the search input to provide search suggestions as the user types the 3 characters
 searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
 
@@ -21,11 +24,11 @@ searchInput.addEventListener('input', () => {
     } else {
         // if less than 3 characters, clear and hide the suggestions 
         suggestionsContainer.classList.remove('show');
-        suggestionsContainer.innerHTML = ''; 
+        suggestionsContainer.innerHTML = '';
     }
 });
 
-//  added an event listener to the search button to bvring recipes search when clicked
+//  added an event listener to the search button to bring recipes search when clicked
 searchButton.addEventListener('click', () => {
     const searchTerm = searchInput.value.toLowerCase();
     fetchRecipes(searchTerm);
@@ -33,7 +36,7 @@ searchButton.addEventListener('click', () => {
 
 //  fetch and display recipes
 function fetchCategories() {
-    // categoryy data from the API
+    // category data from the API
     fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
         .then(response => response.json())
         .then(data => {
@@ -102,10 +105,11 @@ function displayCategories(categories) {
     categoryContainer.appendChild(categoryGrid);
 }
 
-// calling the fetchCategories function when the window loads
-window.onload = () => {
-    fetchCategories();
-};
+// Move the fetchRecentlySearchedRecipes function call outside of window.onload
+fetchCategories();
+
+// Call fetchRecentlySearchedRecipes independently when the page loads
+fetchRecentlySearchedRecipes();
 
 // fetch search suggestions based on user input
 function fetchSuggestions(searchTerm) {
@@ -129,43 +133,43 @@ function recipeSuggestions(suggestions) {
     recipeDetailsContainer.innerHTML = '';
     suggestionsContainer.innerHTML = '';
 
-    //check if there are no suggestuons or none returned
+    // check if there are no suggestions or none returned
     if (!suggestions) {
-        //if we have no suggestions we can hide the suggestions conatiner 
-        suggestionsContainer.classList.remove('show'); 
+        // if we have no suggestions we can hide the suggestions container
+        suggestionsContainer.classList.remove('show');
         return;
     }
 
-    // returning the amount of suggestioons chose 5 
+    // returning the amount of suggestions, chose 5
     const amountOfSuggestions = 5;
-  
-    // loop through a maximum of 'amountOfSuggestions'orr the available suggestionns
+
+    // loop through a maximum of 'amountOfSuggestions' or the available suggestions
     for (let i = 0; i < Math.min(suggestions.length, amountOfSuggestions); i++) {
         const suggestion = suggestions[i];
 
-        //a button element for each recipe
+        // a button element for each recipe
         const suggestionItem = document.createElement('button');
         suggestionItem.classList.add('dropdown-item');
         suggestionItem.textContent = suggestion.strMeal;
 
         // a click event listener to the suggestion button
         suggestionItem.addEventListener('click', () => {
-            //  the selected suggestion as the search input
+            // set the selected suggestion as the search input
             searchInput.value = suggestion.strMeal;
-            
-            // the suggestions container
-            suggestionsContainer.classList.remove('show'); 
 
-            //recipees for the selected suggestion
+            // hide the suggestions container
+            suggestionsContainer.classList.remove('show');
+
+            // recipes for the selected suggestion
             fetchRecipes(suggestion.strMeal);
         });
 
-        // tghe suggestion button to the suggestions container
+        // the suggestion button to the suggestions container
         suggestionsContainer.appendChild(suggestionItem);
     }
 
-    // the suggestions container
-    suggestionsContainer.classList.add('show'); 
+    // show the suggestions container
+    suggestionsContainer.classList.add('show');
 }
 
 // defining a function to fetch recipes based on a search term
@@ -180,7 +184,7 @@ function fetchRecipes(searchTerm) {
         });
 }
 
-// defining a function to fetch recipes based on a selected cateegory
+// defining a function to fetch recipes based on a selected category
 function fetchRecipesByCategory(category) {
     categoryContainer.innerHTML = '';
     recipeDetailsContainer.innerHTML = '';
@@ -188,12 +192,12 @@ function fetchRecipesByCategory(category) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            // displaying tghe recipes for the selected category
+            // displaying the recipes for the selected category
             displayRecipes(data.meals);
         });
 }
 
-// defining a function to display reciipes in the results container
+// defining a function to display recipes in the results container
 function displayRecipes(recipes) {
     categoryContainer.innerHTML = '';
     resultsContainer.innerHTML = '';
@@ -246,13 +250,17 @@ function displayRecipes(recipes) {
 
     // adding the row of recipe cards to the results container
     resultsContainer.appendChild(row);
+
+    // Add the selected recipe to recently searched
+    if (recipes.length > 0) {
+        addRecentlySearchedRecipe(recipes[0]);
+    }
 }
 
 // defining a function to display details of a selected recipe
 function displayRecipeDetails(recipeId) {
     recipeDetailsContainer.innerHTML = '';
     suggestionsContainer.innerHTML = '';
-    videoDetailsContainer.innerHTML = ''; 
     resultsContainer.innerHTML = '';
 
     const detailsUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
@@ -339,8 +347,44 @@ function getIngredientsList(recipe) {
     return ingredientsList;
 }
 
-// calling the fetchCategories function when the window loads
-window.onload = () => {
-    fetchCategories();
-};
+//  to add a recipe to the recently searched list
+function addRecentlySearchedRecipe(recipe) {
+    const recentlySearchedRecipes = JSON.parse(localStorage.getItem('recentlySearchedRecipes')) || [];
 
+    recentlySearchedRecipes.unshift(recipe);
+
+    if (recentlySearchedRecipes.length > maxRecentlySearchedRecipes) {
+        recentlySearchedRecipes.pop();
+    }
+
+    localStorage.setItem('recentlySearchedRecipes', JSON.stringify(recentlySearchedRecipes));
+
+    displayRecentlySearchedRecipes(recentlySearchedRecipes);
+}
+
+// display the recently searched recipes
+function displayRecentlySearchedRecipes(recentlySearchedRecipes) {
+    recentlySearchedContainer.innerHTML = '';
+
+    recentlySearchedRecipes.forEach(recipe => {
+        const recipeCard = document.createElement('div');
+        recipeCard.classList.add('col-md-4', 'mb-3');
+
+        //creating the card to show the recupe 
+        recipeCard.innerHTML = `
+            <div class="card">
+                <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">${recipe.strMeal}</h5>
+                    <button class="btn btn-primary btn-sm" onclick="fetchRecipes('${recipe.strMeal}')">View Recipe</button>
+                </div>
+            </div>
+        `;
+
+        recentlySearchedContainer.appendChild(recipeCard);
+    });
+}
+
+// Inside the 'fetchRecipes' function after displaying the fetched recipes
+fetchRecipes(searchTerm);
+addRecentlySearchedRecipe(suggestions[0]);
