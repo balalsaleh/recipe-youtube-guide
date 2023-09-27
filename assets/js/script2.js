@@ -124,7 +124,9 @@ function fetchSuggestions(searchTerm) {
 
 // displaying recipe search suggestions
 function recipeSuggestions(suggestions) {
-    // clearing the suggestions contrainer
+    // clearing the contrainers go videos recupes and suggestions
+    videoDetailsContainer.innerHTML = ''; 
+    recipeDetailsContainer.innerHTML = '';
     suggestionsContainer.innerHTML = '';
 
     //check if there are no suggestuons or none returned
@@ -247,11 +249,11 @@ function displayRecipes(recipes) {
 }
 
 // defining a function to display details of a selected recipe
-// ...
 function displayRecipeDetails(recipeId) {
     recipeDetailsContainer.innerHTML = '';
     suggestionsContainer.innerHTML = '';
-    videoDetailsContainer.innerHTML = ''; // Clear previous video details
+    videoDetailsContainer.innerHTML = ''; 
+    resultsContainer.innerHTML = '';
 
     const detailsUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
 
@@ -292,7 +294,7 @@ function displayRecipeDetails(recipeId) {
 // Function to fetch and display related YouTube videos
 function fetchRelatedYouTubeVideos(recipeTitle) {
     // Construct the YouTube API search URL
-    const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(recipeTitle)}&key=${youtubeApiKey}&maxResults=4`; // Set maxResults to 4
+    const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(recipeTitle)}&key=${youtubeApiKey}&maxResults=5`; // Set maxResults to 5
 
     // Make a GET request to the YouTube API
     fetch(apiUrl)
@@ -323,10 +325,6 @@ function fetchRelatedYouTubeVideos(recipeTitle) {
             videoContainer.innerHTML = 'Error fetching related YouTube videos.';
         });
 }
-
-
-
-
 
 // defining a function to create a list of ingredients for a recipe
 function getIngredientsList(recipe) {
