@@ -1,3 +1,5 @@
+// YouTube API key
+const youtubeApiKey = "AIzaSyB5dX3pFkRAZUPgX1JfHuPeSJdUvmd7KhU";
 // here i have set up variables for api's
 const apiKey = '1'; 
 const baseUrl = 'https://www.themealdb.com/api/json/v1/1/search.php'; 
@@ -245,15 +247,14 @@ function displayRecipes(recipes) {
 }
 
 // defining a function to display details of a selected recipe
+// ...
 function displayRecipeDetails(recipeId) {
     recipeDetailsContainer.innerHTML = '';
-
-    resultsContainer.innerHTML = '';
     suggestionsContainer.innerHTML = '';
-    // the api url for the details, takes in trhe recipe ID 
+    videoDetailsContainer.innerHTML = ''; // Clear previous video details
+
     const detailsUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
 
-    // returns the details, TODO: use the recipeDetails.strMeal to return youtube videos
     fetch(detailsUrl)
         .then(response => response.json())
         .then(data => {
@@ -261,14 +262,14 @@ function displayRecipeDetails(recipeId) {
             const ingredientsList = getIngredientsList(recipeDetails);
             const recipeDetailsHTML = `
                 <div class="card">
-                <h2 class="card-title"><strong>${recipeDetails.strMeal}</strong></h2>
+                    <h2 class="card-title"><strong>${recipeDetails.strMeal}</strong></h2>
                     <img src="${recipeDetails.strMealThumb}" alt="${recipeDetails.strMeal}" class="card-img-top" style="max-height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <p class="card-text"><strong>Instructions:</strong> ${recipeDetails.strInstructions}</p>
                         <p class="card-text"><strong>Category:</strong> ${recipeDetails.strCategory}</p>
                         <p class="card-text"><strong>Origin of Recipe:</strong> ${recipeDetails.strArea}</p>
                         <p class="card-text"><strong>Dietary Category:</strong> ${recipeDetails.strCategory}</p>
-                        <h5 class="card-subtitle mt-4"><strong>Ingredients:</strong></h5>
+                        <h5 class="card-subtitle mt-4 mb-2"><strong>Ingredients:</strong></h5>
                         <ul>
                             ${ingredientsList.map(ingredient => `<li>${ingredient}</li>`).join('')}
                         </ul>
@@ -276,14 +277,56 @@ function displayRecipeDetails(recipeId) {
                 </div>
             `;
 
-            // displaying the recipe details on the page
+            // Display the recipe details on the left column
             recipeDetailsContainer.innerHTML = recipeDetailsHTML;
+
+            // Fetch and display related YouTube videos in the right column (videoDetailsContainer)
+            fetchRelatedYouTubeVideos(recipeDetails.strMeal);
         })
         .catch(error => {
-            // handling errors if fetching recipe details fails
+            // Handle errors if fetching recipe details fails
             console.error('Error fetching recipe details:', error);
         });
 }
+
+// Function to fetch and display related YouTube videos
+function fetchRelatedYouTubeVideos(recipeTitle) {
+    // Construct the YouTube API search URL
+    const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(recipeTitle)}&key=${youtubeApiKey}&maxResults=4`; // Set maxResults to 4
+
+    // Make a GET request to the YouTube API
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Get an array of video IDs from the search results
+            const videoIds = data.items.map(item => item.id.videoId);
+
+            // Create a container for the videos
+            const videoContainer = document.getElementById('videoDetailsContainer');
+            videoContainer.innerHTML = ''; // Clear previous video details
+
+            // Create and append iframes for the related videos
+            videoIds.forEach(videoId => {
+                const videoIframe = document.createElement('iframe');
+                videoIframe.src = `https://www.youtube.com/embed/${videoId}`;
+                videoIframe.width = '100%';
+                videoIframe.height = '315'; // You can adjust the height as needed
+                videoIframe.allowFullscreen = true;
+
+                // Append the video iframe to the video container
+                videoContainer.appendChild(videoIframe);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching related YouTube videos:', error);
+            const videoContainer = document.getElementById('videoDetailsContainer');
+            videoContainer.innerHTML = 'Error fetching related YouTube videos.';
+        });
+}
+
+
+
+
 
 // defining a function to create a list of ingredients for a recipe
 function getIngredientsList(recipe) {
@@ -302,3 +345,4 @@ function getIngredientsList(recipe) {
 window.onload = () => {
     fetchCategories();
 };
+
