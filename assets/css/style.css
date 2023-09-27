@@ -1,33 +1,65 @@
-.img-smaller {
-    max-width: 280px;
-    height: auto;
+#logo {
+    max-width:20em;
 }
 
-footer {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #333;
-    color: white; 
-    padding: 10px; 
+#searchInput {
+    z-index: 2;
+    }
+
+.thumbnail {
+    width: 100px; 
+    height: auto; 
 }
 
-/* Add this to your style.css file */
-.recipe-details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+.category-card:hover {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3); 
+    cursor: pointer;
+    transform: scale(1.05); 
 }
 
-.recipe {
-    padding: 10px;
-    box-sizing: border-box;
+.input-group {
+    width: 80%;
+    margin: 0 auto;
 }
 
-.video {
-    padding: 10px;
-    box-sizing: border-box;
+h2 {
+    font-family: "Playfair Display", serif;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
+h5 {
+    font-weight: bold;
+    font-family: "Playfair Display", serif;
+    display: block;
+    font-size: 30px;
+    margin-bottom: 0.5rem;
+    
+    
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    text-align:unset;
+    font:bold;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    line-height: 2.0;
+}
+
+p {
+    font-weight: 300;
+}
+
+h2, h5, li, p {
+    text-rendering: optimizeLegibility;
+}
