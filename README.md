@@ -56,6 +56,6 @@ Below you can see our kanban board:
 
 ## Link to Deployed Website
 
-[Deployed Website]()
+[Deployed Website](https://balalsaleh.github.io/recipe-youtube-guide/index.html)
 
 [GitHub Repo](https://github.com/balalsaleh/recipe-youtube-guide)
