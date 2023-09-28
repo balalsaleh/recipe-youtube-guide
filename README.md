@@ -47,6 +47,13 @@ Below you can see there are recently searched recipes added to a container stati
 Below you can see there are options for the beef category
 ![beef-options](./assets/images/optionsBeef.png)
 
+## Using Kanban Board and Agile methodologies
+
+We tried to work in an agile method as a team as much as possible, utilising daily standups and the use of a kanbad board to monitor our tasks. We did a small retro at the end where we came up with future improvments as a team.
+
+Below you can see our kanban board:
+![kanban-board](./assets/images/kanbanBoard.png)
+
 ## Link to Deployed Website
 
 [Draft Webiste]()
