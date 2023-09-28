@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasty Recipes</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <header class="bg-primary text-white py-4">
+        <div class="container text-center">
+            <a href="index.html"><img src="assets/images/logo.png" id="logo"
+                    alt="Recipe Suggestion Group Project: Tasty Recipes"></a>
+        </div>
+    </header>
+    <div class="container mt-4">
+        <div class="input-group">
+            <a href="index.html" class="btn btn-primary btn-home" style="margin-right: -3px;"><img
+                    src="assets/images/Home.png" alt="Home" style="max-width: 1em;"></a>
+            <input type="text" id="searchInput" class="form-control" placeholder="Search for Tasty Recipes">
+            <div class="input-group-append">
+                <button id="searchButton" class="btn btn-primary" type="button">Search</button>
+            </div>
+        </div>
+        <div class="dropdown mt-2">
+            <div class="dropdown-menu" id="suggestions" aria-labelledby="searchInput">
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="recipeDetails" class="recipe-details"></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="videoDetailsContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown-menu" id="suggestions" aria-labelledby="searchInput">
+        </div>
+    </div>
+    </div>
+    <div class="container mt-4">
+
+    </div>
+
+    <div class="container mt-4">
+        <h2 id="optionsHeader"></h2>
+        <div class="row" id="optionsContainer">
+
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row" id="categoryContainer">
+        </div>
+    </div>
+
+
+    <div class="container mt-4">
+        <div id="results">
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h2>Recently Searched Recipes</h2>
+        <div class="row" id="recentlySearchedContainer">
+        </div>
+    </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2023 TastyRecipes</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="assets/js/script.js"></script>
+
+</body>
+
+</html>
